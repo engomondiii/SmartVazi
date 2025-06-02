@@ -10,49 +10,52 @@ import {
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
-  Alert,
+  Alert, // Alert can still be used for temporary feedback
 } from 'react-native';
 import { useAppTheme } from '../../theme/ThemeContext';
 import StyledButton from '../../components/common/StyledButton';
 import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
+import { CommonActions } from '@react-navigation/native'; // <-- Ensure CommonActions is imported
 
 const LoginScreen = ({ navigation }) => {
   const theme = useAppTheme();
 
+  // Email and password states are kept for UI but not strictly used for login logic in this bypass version
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(null); // Error state can still be used for non-auth errors if any
 
   const handleLogin = () => {
-    setError(null);
-    if (!email || !password) {
-      setError('Please enter both email and password.');
-      return;
-    }
+    setError(null); // Clear previous errors
     setIsLoading(true);
-    console.log('Attempting login with:', email, password);
+    console.log('Login button pressed. Bypassing authentication, navigating to MainApp...');
+
+    // Simulate a short delay as if an API call was made
     setTimeout(() => {
       setIsLoading(false);
-      if (email === 'test@smartvazi.com' && password === 'password') {
-        Alert.alert('Login Success!', 'Welcome back to SmartVazi!');
-        // TODO: Navigate to the main part of the app after successful login
-        // Example: Replace the auth stack with the main app stack
-        // navigation.replace('MainApp'); // Or navigation.reset({ index: 0, routes: [{ name: 'MainApp' }] });
-        // 'MainApp' would be the route name for your main application navigator (e.g., MainTabNavigator)
-        // This will be set up once MainTabNavigator and its screens are created.
-      } else {
-        setError('Invalid email or password. Please try again.');
-      }
-    }, 2000);
+
+      // Navigate to the main part of the app, replacing the auth stack
+      // This effectively simulates a successful login for development purposes
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'MainApp' }], // 'MainApp' is the route in AppNavigator
+                                           // that renders your MainTabNavigator
+        })
+      );
+    }, 1000); // Short delay to show loading indicator briefly
   };
 
+  // Social login handlers remain as placeholders
   const handleGoogleLogin = () => {
     setIsLoading(true);
     console.log('Attempting Google login...');
     setTimeout(() => {
       setIsLoading(false);
       Alert.alert('Google Login', 'Google Sign-In flow initiated (placeholder).');
+      // Potentially also navigate to MainApp after a successful social login simulation:
+      // navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'MainApp' }] }));
     }, 1500);
   };
 
@@ -62,6 +65,7 @@ const LoginScreen = ({ navigation }) => {
     setTimeout(() => {
       setIsLoading(false);
       Alert.alert('Apple Login', 'Apple Sign-In flow initiated (placeholder).');
+      // Potentially also navigate to MainApp after a successful social login simulation.
     }, 1500);
   };
 
@@ -100,13 +104,13 @@ const LoginScreen = ({ navigation }) => {
             style={[
               styles.input,
               {
-                borderColor: error && email === '' ? theme.colors.error : theme.colors.lightGrey,
+                borderColor: theme.colors.lightGrey, // No error highlighting on inputs in this bypass version
                 backgroundColor: theme.colors.white,
                 color: theme.colors.textPrimary,
                 fontFamily: theme.typography.body.fontFamily,
               },
             ]}
-            placeholder="Email Address"
+            placeholder="Email Address (optional)"
             placeholderTextColor={theme.colors.textSecondary}
             keyboardType="email-address"
             autoCapitalize="none"
@@ -119,13 +123,13 @@ const LoginScreen = ({ navigation }) => {
             style={[
               styles.input,
               {
-                borderColor: error && password === '' ? theme.colors.error : theme.colors.lightGrey,
+                borderColor: theme.colors.lightGrey, // No error highlighting on inputs in this bypass version
                 backgroundColor: theme.colors.white,
                 color: theme.colors.textPrimary,
                 fontFamily: theme.typography.body.fontFamily,
               },
             ]}
-            placeholder="Password"
+            placeholder="Password (optional)"
             placeholderTextColor={theme.colors.textSecondary}
             secureTextEntry
             value={password}
@@ -138,8 +142,7 @@ const LoginScreen = ({ navigation }) => {
           style={styles.forgotPasswordContainer}
           onPress={() => {
             if (!isLoading) {
-              console.log('Forgot Password pressed');
-              navigation.navigate('ForgotPassword'); // <-- Updated navigation
+              navigation.navigate('ForgotPassword');
             }
           }}
           disabled={isLoading}
@@ -155,11 +158,12 @@ const LoginScreen = ({ navigation }) => {
 
         {!isLoading && (
           <StyledButton
-            title="Log In"
+            title="Log In & Proceed" // Title updated to reflect bypass
             onPress={handleLogin}
             style={styles.loginButton}
           />
         )}
+
 
         <View style={styles.socialSeparatorContainer}>
           <View style={[styles.separatorLine, { backgroundColor: theme.colors.lightGrey }]} />
@@ -199,8 +203,7 @@ const LoginScreen = ({ navigation }) => {
           style={styles.signupContainer}
           onPress={() => {
             if (!isLoading) {
-              console.log('Sign Up pressed');
-              navigation.navigate('Signup'); // <-- Updated navigation
+              navigation.navigate('Signup');
             }
           }}
           disabled={isLoading}
@@ -217,7 +220,8 @@ const LoginScreen = ({ navigation }) => {
   );
 };
 
-// Styles remain the same as your previous version
+// Styles remain the same as your previous version.
+// Ensure these styles are correctly defined in your actual file.
 const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
