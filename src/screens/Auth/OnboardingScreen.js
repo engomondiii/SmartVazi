@@ -111,8 +111,9 @@ const OnboardingScreen = ({ navigation }) => {
         <StyledButton
           title="Get Started"
           onPress={() => {
-            console.log('Get Started pressed');
-            // Example navigation: navigation.navigate('Login');
+            console.log('Get Started pressed, navigating to Auth stack');
+            // Updated navigation action:
+            navigation.replace('Auth');
           }}
         />
       </Animated.View>
@@ -120,40 +121,41 @@ const OnboardingScreen = ({ navigation }) => {
   );
 };
 
+// Styles remain the same as your previous version
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 30, // Increased padding for more "breathable space"
-    paddingTop: 60,        // More space at the top
-    paddingBottom: 40,     // Space at the bottom
+    paddingHorizontal: 30,
+    paddingTop: 60,
+    paddingBottom: 40,
     justifyContent: 'space-between',
-    alignItems: 'center', // Center content horizontally on the screen
+    alignItems: 'center',
   },
   contentContainer: {
     alignItems: 'center',
-    width: '100%', // Ensure content container takes full width for text centering
+    width: '100%',
     flexGrow: 1,
     justifyContent: 'center',
   },
   logo: {
-    width: 180, // Slightly larger logo
+    width: 180,
     height: 180,
-    marginBottom: 50, // More space below logo
+    marginBottom: 50,
   },
   title: {
     textAlign: 'center',
-    marginBottom: 20, // More space below title
+    marginBottom: 20,
   },
   subtitle: {
     textAlign: 'center',
-    paddingHorizontal: 15, // Adjust as needed
-    lineHeight: 24, // Explicit line height (e.g., theme.typography.body.fontSize * 1.5)
-    opacity: 0.9, // Slightly softer subtitle for hierarchy
+    paddingHorizontal: 15,
+    lineHeight: 24,
+    opacity: 0.9,
   },
-  buttonWrapper: { // Wrapper for the button for better layout control if needed
-    width: '80%', // Make button take a significant portion of width
-    maxWidth: 350, // Max width for very large screens
-    paddingBottom: 20, // Ensure some space from absolute bottom
+  buttonWrapper: {
+    width: '80%',
+    maxWidth: 350,
+    paddingBottom: 20,
   },
 });
 
