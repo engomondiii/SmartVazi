@@ -9,7 +9,6 @@ import {
   ActivityIndicator,
   RefreshControl,
   Dimensions,
-  // Platform, // <-- Temporarily remove Platform import IF ONLY USED IN STYLESHEET
 } from 'react-native';
 import { useAppTheme } from '../../theme/ThemeContext';
 import StyledButton from '../../components/common/StyledButton';
@@ -30,7 +29,7 @@ const screenWidth = Dimensions.get('window').width;
 
 const WardrobeListScreen = ({ navigation }) => {
   const theme = useAppTheme();
-  // ... (state and functions remain the same as your version) ...
+  
   const [wardrobeItems, setWardrobeItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -55,13 +54,12 @@ const WardrobeListScreen = ({ navigation }) => {
   };
 
   const navigateToAddItem = () => {
-    console.log('Navigate to Add Item Screen');
-    // navigation.navigate('AddItem');
+    navigation.navigate('AddItem');
   };
 
   const navigateToItemDetail = (item) => {
     console.log('Navigate to Item Detail:', item.name);
-    // navigation.navigate('ItemDetail', { itemId: item.id });
+    navigation.navigate('ItemDetail', { itemId: item.id }); // <-- MODIFIED
   };
 
   const renderItemCard = ({ item }) => {
@@ -69,7 +67,7 @@ const WardrobeListScreen = ({ navigation }) => {
     return (
       <TouchableOpacity
         style={[styles.itemCard, { width: itemWidth, backgroundColor: theme.colors.white }]}
-        onPress={() => navigateToItemDetail(item)}
+        onPress={() => navigateToItemDetail(item)} // <-- Calls updated function
       >
         <Image source={{ uri: item.imageUrl }} style={styles.itemImage} resizeMode="cover" />
         <View style={styles.itemInfo}>
@@ -142,7 +140,7 @@ const WardrobeListScreen = ({ navigation }) => {
   );
 };
 
-// --- MODIFIED StyleSheet ---
+// --- Styles remain the same ---
 const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
@@ -153,8 +151,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   header: {
-    // paddingTop: (Platform.OS === 'ios' ? 50 : 20) + 10, // MODIFIED - Using fixed value
-    paddingTop: 60, // Fixed value for testing (adjust as needed for status bar)
+    paddingTop: 60,
     paddingBottom: 15,
     paddingHorizontal: 20,
     borderBottomWidth: 1,
@@ -176,8 +173,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 2,
-    // overflow: Platform.OS === 'android' ? 'hidden' : 'visible', // MODIFIED - Using fixed value or remove
-    overflow: 'hidden', // Fixed value or remove if causing issues
+    overflow: 'hidden',
   },
   itemImage: {
     width: '100%',

@@ -3,59 +3,43 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 // Import your Wardrobe screens
 import WardrobeListScreen from '../screens/Wardrobe/WardrobeListScreen';
-// Import other screens for the Wardrobe section here as you create them:
-// import AddItemScreen from '../screens/Wardrobe/AddItemScreen';
-// import ItemDetailScreen from '../screens/Wardrobe/ItemDetailScreen';
-// import EditItemScreen from '../screens/Wardrobe/EditItemScreen';
+import AddItemScreen from '../screens/Wardrobe/AddItemScreen';
+import ItemDetailScreen from '../screens/Wardrobe/ItemDetailScreen';
+import EditItemScreen from '../screens/Wardrobe/EditItemScreen'; // <-- Import EditItemScreen
 
 const Stack = createStackNavigator();
 
 const WardrobeStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="WardrobeList" // Define the initial route for this stack
+      initialRouteName="WardrobeList"
       screenOptions={{
-        headerShown: false, // Hides the default header for all screens in this stack
-                            // Allows screens to implement custom headers or have no header
+        headerShown: false,
+        // Using 'modal' presentation for screens that slide up over the main tab view.
+        // The default is 'card' for a standard push animation.
+        presentation: 'modal', 
       }}
     >
       <Stack.Screen
-        name="WardrobeList" // Route name for WardrobeListScreen
+        name="WardrobeList"
         component={WardrobeListScreen}
-        // options={{ title: 'My Wardrobe' }} // Example if headerShown was true
+        options={{ presentation: 'card' }} // WardrobeList should not be a modal
       />
-      {/*
-        Example of how to add other screens to this stack later:
-
-        <Stack.Screen
-          name="AddItem"
-          component={AddItemScreen}
-          options={{
-            headerShown: true, // Example: Show header for this screen
-            title: 'Add New Item',
-            // You might want to customize back button, header styles etc.
-            // headerBackTitleVisible: false,
-          }}
-        />
-        <Stack.Screen
-          name="ItemDetail"
-          component={ItemDetailScreen}
-          options={{
-            headerShown: true,
-            title: 'Item Details',
-            // headerBackTitleVisible: false,
-          }}
-        />
-        <Stack.Screen
-          name="EditItem"
-          component={EditItemScreen}
-          options={{
-            headerShown: true,
-            title: 'Edit Item',
-            // headerBackTitleVisible: false,
-          }}
-        />
-      */}
+      <Stack.Screen
+        name="AddItem"
+        component={AddItemScreen}
+        // Inherits 'modal' presentation from screenOptions
+      />
+      <Stack.Screen
+        name="ItemDetail"
+        component={ItemDetailScreen}
+        // Inherits 'modal' presentation. Can be changed to 'card' if you prefer.
+      />
+      <Stack.Screen // <-- Route for EditItemScreen is now active
+        name="EditItem"
+        component={EditItemScreen}
+        // Inherits 'modal' presentation
+      />
     </Stack.Navigator>
   );
 };
