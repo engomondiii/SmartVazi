@@ -1,52 +1,67 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useAppTheme } from '../theme/ThemeContext'; // Import theme hook
 
 // Import your Stylist screens
 import StyleMeScreen from '../screens/Stylist/StyleMeScreen';
-// Import other screens for the Stylist section here as you create them:
-// import OutfitResultsScreen from '../screens/Stylist/OutfitResultsScreen';
-// import OutfitVisualizerScreen from '../screens/Stylist/OutfitVisualizerScreen';
+import OutfitResultsScreen from '../screens/Stylist/OutfitResultsScreen';
+import OutfitVisualizerScreen from '../screens/Stylist/OutfitVisualizerScreen';
 
 const Stack = createStackNavigator();
 
 const StylistStack = () => {
+  const theme = useAppTheme();
+
   return (
     <Stack.Navigator
-      initialRouteName="StyleMe" // Define the initial route for this stack
+      initialRouteName="StyleMe"
       screenOptions={{
-        headerShown: false, // Hides the default header for all screens in this stack
+        headerShown: false, // Default for the stack, can be overridden per screen
       }}
     >
       <Stack.Screen
-        name="StyleMe" // Route name for StyleMeScreen
+        name="StyleMe"
         component={StyleMeScreen}
-        // options={{ title: 'AI Stylist' }} // Example if headerShown was true and you wanted a title
       />
-      {/*
-        Example of how to add other screens to this stack later:
-
-        <Stack.Screen
-          name="OutfitResults"
-          component={OutfitResultsScreen} // You would need to create this screen component
-          options={{
-            headerShown: true, // Example: Show header for this screen
-            title: 'Your Outfit Suggestions',
-            headerBackTitleVisible: false, // Optional: for iOS back button
-            // You can also style the header here using theme.colors etc.
-            // headerStyle: { backgroundColor: theme.colors.background },
-            // headerTintColor: theme.colors.textPrimary,
-          }}
-        />
-        <Stack.Screen
-          name="OutfitVisualizer"
-          component={OutfitVisualizerScreen} // You would need to create this screen component
-          options={{
-            headerShown: true,
-            title: 'Outfit Preview',
-            headerBackTitleVisible: false,
-          }}
-        />
-      */}
+      <Stack.Screen
+        name="OutfitResults"
+        component={OutfitResultsScreen}
+        options={{
+          headerShown: true, // Show a standard header for the results screen
+          title: 'Your Outfit Suggestions',
+          headerBackTitleVisible: false,
+          headerStyle: { 
+            backgroundColor: theme.colors.background, 
+            borderBottomWidth: 0, 
+            elevation: 0, // No shadow for a flat look
+          },
+          headerTitleStyle: { 
+            color: theme.colors.textPrimary, 
+            fontFamily: theme.typography.h2.fontFamily 
+          },
+          headerTintColor: theme.colors.primaryAction, // Color for the back arrow
+        }}
+      />
+      <Stack.Screen
+        name="OutfitVisualizer"
+        component={OutfitVisualizerScreen}
+        options={{
+          presentation: 'modal', // Show this as a slide-up modal for a distinct feel
+          headerShown: true,
+          title: 'Outfit Preview',
+          headerBackTitleVisible: false,
+          headerStyle: { 
+            backgroundColor: theme.colors.background, 
+            borderBottomWidth: 0, 
+            elevation: 0 
+          },
+          headerTitleStyle: { 
+            color: theme.colors.textPrimary, 
+            fontFamily: theme.typography.h2.fontFamily 
+          },
+          headerTintColor: theme.colors.primaryAction,
+        }}
+      />
     </Stack.Navigator>
   );
 };
